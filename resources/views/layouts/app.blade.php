@@ -48,6 +48,9 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/home') }}">Home</a></li>
+                    @if(!Auth::guest() and Auth::user()->is_active and Auth::user()->role->name == 'administrator')
+                       <li><a href="{{route('admin.users.index')}}" title="Administrator's Homepage">Admin Dashboard</a></li>
+                    @endif
                 </ul>
 
                 <!-- Right Side Of Navbar -->
