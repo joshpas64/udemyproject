@@ -28,7 +28,7 @@
 								{{$post->user->name}}
 							@endif
 						</td>
-						<td>{{$post->category_id}}</td>
+						<td>{{$post->category ? $post->category->name : "No Assigned Category"}}</td>
 						<td>{{$post->body}}</td>
 						<td>
 							@if($post->photo)

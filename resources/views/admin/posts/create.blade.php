@@ -14,7 +14,7 @@
 
 	<div class="form-group">
 		{!! Form::label('category_id','Category: ') !!}
-		{!! Form::select('category_id',array(''=>'Select a Category for this Post'),null,['class'=>'form-control']) !!}
+		{!! Form::select('category_id',array(''=>'Select a Category for this Post') + $categories,null,['class'=>'form-control']) !!}
 	</div>
 
 	<div class="form-group">
