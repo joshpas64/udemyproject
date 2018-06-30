@@ -48,9 +48,7 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/home') }}">Home</a></li>
-                    @if(!Auth::guest() and Auth::user()->is_active and Auth::user()->role->name == 'administrator')
-                       <li><a href="{{route('admin.users.index')}}" title="Administrator's Homepage">Admin Dashboard</a></li>
-                    @endif
+<!--  -->
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -60,6 +58,13 @@
                         <li><a href="{{ url('/login') }}">Login</a></li>
                         <li><a href="{{ url('/register') }}">Register</a></li>
                     @else
+                        @if(Auth::user() and Auth::user()->role->name == 'administrator')
+                            <li>
+                                <a href="{{route('admin.users.index')}}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    Administration Dashboard
+                                </a>
+                            </li>
+                        @endif
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 {{ Auth::user()->name }} <span class="caret"></span>

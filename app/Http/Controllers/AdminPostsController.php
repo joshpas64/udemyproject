@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use Cviebrock\EloquentSluggable\SluggableInterface;
+use Cviebrock\EloquentSluggable\SluggableTrait;
+use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
+
 use App\Http\Requests;
 use App\Http\Requests\PostsCreateRequest;
 use App\{Post,User,Photo,Category};
@@ -19,7 +24,9 @@ class AdminPostsController extends Controller
     public function index()
     {
         //
-        $posts = Post::all();
+        
+        //$posts = Post::all();
+        $posts = Post::paginate(2);
 
         return view('admin.posts.index',compact('posts'));
     }
@@ -32,7 +39,7 @@ class AdminPostsController extends Controller
     public function create()
     {
         //
-        $categories = Category::lists('name','id')->all();
+        $categories = Category::pluck('name','id')->all();
         return view('admin.posts.create',compact('categories'));
     }
 
@@ -65,7 +72,8 @@ class AdminPostsController extends Controller
         $user->posts()->create($data);
 
         //return $request->all();
-        return redirect()->route('admin.posts.index');
+        $posts = Post::all();
+        return redirect()->route('admin.posts.index',compact('posts'));
     }
 
     /**
@@ -79,6 +87,7 @@ class AdminPostsController extends Controller
         //
     }
 
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -89,6 +98,10 @@ class AdminPostsController extends Controller
     {
         //
 
+        $post = Post::findOrFail($id);
+        $categories = $this->_getAllCategories();
+
+        return view('admin.posts.edit',compact('post','categories'));
     }
 
     /**
@@ -101,6 +114,21 @@ class AdminPostsController extends Controller
     public function update(Request $request, $id)
     {
         //
+
+        $data = $request->all();
+
+        if($file = $request->file('photo_id')){
+            $name = time() . '_' . $file->getClientOriginalName();
+
+            $file->move(Photo::getPhotoDir(),$name);
+
+            $photo = Photo::create(['file'=>$name]);
+
+            $data['photo_id'] = $photo->id;
+        }
+        Auth::user()->posts()->whereId($id)->first()->update($data);
+        $posts = Post::all();
+        return redirect('/admin/posts');
     }
 
     /**
@@ -112,5 +140,56 @@ class AdminPostsController extends Controller
     public function destroy($id)
     {
         //
+        $post = Post::findOrFail($id);
+
+        if($post->photo){
+            $photoPath = $post->photo->file;
+            unlink(public_path() . $photoPath);
+        }
+
+        Session::flash('post_removed','Post ' . $post->title . ' has been removed');
+
+        $post->delete();
+
+        return redirect()->route('admin.posts.index');
+
+    }
+
+    public function post($slug){
+
+        // $post = Post::whereSlug($slug)->firstOrFail();
+        $post = Post::where('slug',$slug)->firstOrFail();
+        //dd($post);
+        //$post = Post::findBySlugOrFail($slug);
+        //$post = Post::where(['slug'=>$slug])->firstOrFail();
+        $comments = !empty($post) ? $post->comments()->whereIsActive(1)->get() : [];
+
+        return view('post',compact('post','comments'));
+    }
+
+    private function _addPhoto(Request $request){
+        $data = $request->all();
+
+        if($file = $request->file('photo_id')){
+            $name = time() . '_' . $file->getClientOriginalName();
+
+            $file->move(Photo::getPhotoDir(),$name);
+
+            $photo = Photo::create(['file'=>$name]);
+
+            $data['photo_id'] = $photo->id;
+        }
+    }
+
+    private function _getAllCategories(){
+        $categories = Category::pluck('name','id')->all();
+        return $categories;
+    }
+
+    private function _unlinkPhoto(){
+        if($this->photo){
+            $photoPath = $this->photo->file;
+            unlink(public_path() . $photoPath);
+        }
     }
 }

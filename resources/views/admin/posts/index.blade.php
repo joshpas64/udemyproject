@@ -11,6 +11,7 @@
 				<th>Category</th>
 				<th>Content Preview</th>
 				<th>Preview Image</th>
+				<th>Comment History</th>
 				<th>Created On</th>
 				<th>Last Update</th>
 			</tr>
@@ -29,7 +30,7 @@
 							@endif
 						</td>
 						<td>{{$post->category ? $post->category->name : "No Assigned Category"}}</td>
-						<td>{{$post->body}}</td>
+						<td>{{str_limit($post->body,10)}}</td>
 						<td>
 							@if($post->photo)
 								<img src="{{$post->photo->file}}" height="60" width="60" class="img img-responsive img-rounded" alt="Thumbnail for {{$post->title}}" style="margin:auto;" />
@@ -38,6 +39,7 @@
 							@endif
 							
 						</td>
+						<td><a href="{{route('admin.comments.show',$post->id)}}">Comment History</a></td>
 						<td>{{$post->created_at}}</td>
 						<td>{{$post->updated_at->diffForHumans()}}</td>
 					</tr>
@@ -45,4 +47,10 @@
 			@endif
 		</tbody>
 	</table>
+
+	<div class="row">
+		<div class="col-sm-6 col-sm-offset-5">
+			{{$posts->render()}}
+		</div>
+	</div>
 @endsection

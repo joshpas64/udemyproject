@@ -16,7 +16,7 @@
 
     <link href="{{asset('css/libs.css')}}" rel="stylesheet">
 
-
+    @yield('styles')
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -127,7 +127,7 @@
                             </li>
 
                             <li>
-                                <a href="{{route('admin.users.create')}}">Create User</a>
+                                <a href="/admin/users/create">Create User</a>
                             </li>
 
                         </ul>
@@ -142,9 +142,12 @@
                             </li>
 
                             <li>
-                                <a href="{{route('admin.posts.create')}}">Create Post</a>
+                                <a href="/admin/posts/create">Create Post</a>
                             </li>
 
+                            <li>
+                                <a href="{{route('admin.comments.index')}}">Post Comments</a>
+                            </li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
@@ -154,13 +157,8 @@
                         <a href="#"><i class="fa fa-wrench fa-fw"></i>Categories<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="/categories">All Categories</a>
+                                <a href="{{route('admin.categories.index')}}">All Categories</a>
                             </li>
-
-                            <li>
-                                <a href="/categories/create">Create Category</a>
-                            </li>
-
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
@@ -170,22 +168,15 @@
                         <a href="#"><i class="fa fa-wrench fa-fw"></i>Media<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="/media">All Media</a>
+                                <a href="{{route('admin.media.index')}}">All Media</a>
                             </li>
 
                             <li>
-                                <a href="">Upload Media</a>
+                                <a href="{{route('admin.media.create')}}">Upload Media</a>
                             </li>
-
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
-
-
-
-
-
-
 
                     <li>
                         <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
@@ -351,8 +342,7 @@
 
 
 @yield('footer')
-
-
+<script id="dsq-count-scr" src="//udemy-laravel.disqus.com/count.js" async></script>
 
 
 
