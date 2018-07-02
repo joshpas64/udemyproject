@@ -60,7 +60,7 @@
                     @else
                         @if(Auth::user() and Auth::user()->role->name == 'administrator')
                             <li>
-                                <a href="{{route('admin.users.index')}}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <a href="/admin/users" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     Administration Dashboard
                                 </a>
                             </li>

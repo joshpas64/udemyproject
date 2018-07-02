@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 use \Session;
 use App\Http\Requests;
-use App\{Comment,Post};
+use App\{Comment,Post,Photo};
 
 class PostCommentsController extends Controller
 {
@@ -49,7 +49,7 @@ class PostCommentsController extends Controller
             'post_id' => $request->post_id,
             'author'=> $user->name,
             'email' => $user->email,
-            'photo' => $user->photo ? $user->photo->file : null,
+            'photo' => $user->photo ? $user->photo->file : Photo::getPlaceHolder(),
             'body' => $request->body
         ];
 

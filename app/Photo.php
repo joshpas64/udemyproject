@@ -24,6 +24,10 @@ class Photo extends Model
 		return self::$_uploadDir;
 	}
 
+	public static function getPlaceHolder(){
+		return 'http://placehold.it/900x300';
+	}
+
     //
     //
 }

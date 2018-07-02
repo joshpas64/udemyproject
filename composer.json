@@ -6,19 +6,19 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.3.*",
-        "laravelcollective/html": "5.3.*",
+        "laravel/framework": "5.6.*",
+        "laravelcollective/html": "5.6.*",
         "league/flysystem-aws-s3-v3": "^1.0",
         "aws/aws-sdk-php": "^3.62",
         "aws/aws-sdk-php-laravel": "^3.1",
-        "cviebrock/eloquent-sluggable": "4.0.3",
+        "cviebrock/eloquent-sluggable": "^4.3",
         "intervention/image": "^2.4",
         "unisharp/laravel-filemanager": "~1.8"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~4.0",
+        "phpunit/phpunit": "~5.7",
         "symfony/css-selector": "2.8.*|3.0.*",
         "symfony/dom-crawler": "2.8.*|3.0.*"
     },
@@ -41,14 +41,6 @@
         ],
         "post-create-project-cmd": [
             "php artisan key:generate"
-        ],
-        "post-install-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan optimize"
-        ],
-        "post-update-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan optimize"
         ]
     },
     "config": {

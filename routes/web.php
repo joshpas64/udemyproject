@@ -21,9 +21,10 @@ Auth::routes();
 
 Route::get('/logout', 'Auth\LoginController@logout');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/','HomeController@index');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
                     // @if(!Auth::guest() and Auth::user()->is_active and Auth::user()->role->name == 'administrator')
                     //    <li><a href="{{route('admin.users.index')}}" title="Administrator's Homepage">Admin Dashboard</a></li>
                     // @endif
@@ -33,9 +34,7 @@ Route::get('/home', 'HomeController@index');
 Route::get('/post/{id}',['as' => 'home.post','uses'=>'AdminPostsController@post']);
 
 Route::group(['middleware'=>'admin'],function(){
-	Route::get('/admin',function(){
-		return view('admin.index');
-	});
+	Route::get('/admin','AdminController@index');
 
 
 	Route::resource('admin/users','AdminUsersController',['names'=>[

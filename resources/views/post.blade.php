@@ -14,12 +14,11 @@
                 <p class="lead">
                     by 
                     @if(Auth::user() and Auth::user()->is_active and Auth::user()->role->name == 'administrator')
-                    	<a href="{{route('admin.users.edit',$post->user->id)}}">
+                    	<a href="{{route('admin.users.edit',$post->user->id)}}">{{$post->user->name}}</a>
                     @else 
-                    	<a href="#">
+                    	<a href="#">{{$post->user->name}}</a>
                     @endif
-                    
-                    	{{$post->user->name}}</a>
+
                 </p>
 
                 <hr>
@@ -48,24 +47,25 @@
 
                 <hr>
 
-<!--                 @if(Session::has('comment_add'))
+<!--                  @if(Session::has('comment_add'))
                 	<p>{{session('comment_add')}}</p>
-                @endif
+                @endif -->
+                @include('partials.flash_messages')
                 <!-- Blog Comments -->
-                <!-- @if($comments and count($comments) > 0) -->
+                @if($comments and count($comments) > 0)
 	               <!-- Posted Comments -->
 
 	                <!-- Comment -->
-	                <!-- @foreach($comments as $comment)
+	                @foreach($comments as $comment)
 		                <div class="media">
 		                	<a class="pull-left" href="#">
 		                		@if($comment->photo and strlen($comment->photo) > 0)
 		                			<img class="media-object" src="{{$comment->photo}}" height="64" width="64" alt="Profile Thumbnail">
 		                		@else
-		                        	<img class="media-object" src="http://placehold.it/64x64" alt=""> -->
-<!-- 		                        	<img class="media-object" src="{{Auth::user()->gravatar}}" height="64" width="64" alt="Gravatar">
-		                		@endif -->
-		                	<!-- </a>
+		                        	<img class="media-object" src="http://placehold.it/64x64" alt="">
+		                        	<img class="media-object" src="{{Auth::user()->gravatar}}" height="64" width="64" alt="Gravatar">
+		                		@endif
+		                    </a>
 		                	<div class="media-body">
 		                		<h4 class="media-heading">{{$comment->author}}&nbsp;&nbsp;<small>{{$comment->created_at->diffForHumans()}}</small></h4>
 		                		{{$comment->body}}
@@ -93,7 +93,7 @@
 					                				@if($reply->photo and strlen($reply->photo) > 0)
 							                			<img class="media-object" src="{{$reply->photo}}" height="64" width="64" alt="Profile Thumbnail">
 							                		@else
-							                        	<!-- <img class="media-object" src="http://placehold.it/64x64" alt=""> 
+							                        	<img class="media-object" src="http://placehold.it/64x64" alt=""> 
 							                            <img class="media-object" src="{{Auth::user()->gravatar}}" height="64" width="64" alt="Gravatar">
 
 							                		@endif
@@ -122,7 +122,7 @@
 					                    @endif
 				                	@endforeach
 			                	@endif
-			                	</div> -->
+			                	</div>
 			                		                        <!-- Nested Comment -->
 	<!-- 	                        <div class="media">
 		                            <a class="pull-left" href="#">
@@ -164,12 +164,12 @@
 	                    </div>
 	                </div>  -->
 
-                <!-- @endif
+                @endif
 
                 @if(Auth::check())
 
 	                <!-- Comments Form -->
-	                <!-- <div class="well">
+	                <div class="well">
 	                    <h4>Leave a Comment:</h4>
 	                    {!! Form::open(['method'=>'POST','action'=>'PostCommentsController@store']) !!}
 	                    	<input type="hidden" name="post_id" value="{{$post->id}}" />
@@ -182,17 +182,19 @@
 	                    		{!! Form::submit('Add Comment',['class'=>'btn btn-primary']) !!}
 	                    	</div>
 	                    {!! Form::close() !!}
-`		                    <form role="form">
+<!-- `		                    <form role="form">
 	                        <div class="form-group">
 	                            <textarea class="form-control" rows="3"></textarea>
 	                        </div>
 	                        <button type="submit" class="btn btn-primary">Submit</button>
-	                    </form>
+	                    </form> -->
 	                </div>
-                @endif -->
+                @endif 
                 <hr>
+            </div>
 
-                <div id="disqus_thread"></div>
+
+<!--                 <div id="disqus_thread"></div>
 				<script>
 					/**
 					*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
@@ -210,7 +212,7 @@
 					(d.head || d.body).appendChild(s);
 					})();
 				</script>
-				<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+				<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
                             
 @endsection
 

@@ -10,6 +10,7 @@ use Cviebrock\EloquentSluggable\SluggableTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 
+use \Session;
 use App\Http\Requests;
 use App\Http\Requests\PostsCreateRequest;
 use App\{Post,User,Photo,Category};
@@ -126,8 +127,16 @@ class AdminPostsController extends Controller
 
             $data['photo_id'] = $photo->id;
         }
-        Auth::user()->posts()->whereId($id)->first()->update($data);
-        $posts = Post::all();
+        // dd(Auth::user()->posts());
+
+        $userPosts = Auth::user()->posts();
+        if(!empty($userPosts)){
+            Session::flash('unauth_update','You are not authorized to update this post');
+            return redirect('/admin/posts');
+        } else {
+            $userPosts->whereId($id)->first()->update($data);
+        }
+        //Auth::user()->posts()->whereId($id)->first()->update($data);
         return redirect('/admin/posts');
     }
 
@@ -163,8 +172,8 @@ class AdminPostsController extends Controller
         //$post = Post::findBySlugOrFail($slug);
         //$post = Post::where(['slug'=>$slug])->firstOrFail();
         $comments = !empty($post) ? $post->comments()->whereIsActive(1)->get() : [];
-
-        return view('post',compact('post','comments'));
+        $categories = Category::all();
+        return view('post',compact('post','comments','categories'));
     }
 
     private function _addPhoto(Request $request){

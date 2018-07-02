@@ -7,9 +7,9 @@
 		<thead>
 			<tr>
 				<th>Title</th>
+				<th>View Content</th>
 				<th>Author</th>
 				<th>Category</th>
-				<th>Content Preview</th>
 				<th>Preview Image</th>
 				<th>Comment History</th>
 				<th>Created On</th>
@@ -22,6 +22,7 @@
 				@foreach($posts as $post)
 					<tr>
 						<td><a href="{{route('admin.posts.edit',$post->id)}}">{{$post->title}}</a></td>
+						<td><a href="{{route('home.post',$post->slug)}}">View Post</a></td>
 						<td>
 							@if(Auth::user()->id == $post->user->id) 
 								<a href="{{route('admin.users.edit',$post->user->id)}}">{{$post->user->name}}</a>
@@ -30,12 +31,11 @@
 							@endif
 						</td>
 						<td>{{$post->category ? $post->category->name : "No Assigned Category"}}</td>
-						<td>{{str_limit($post->body,10)}}</td>
 						<td>
 							@if($post->photo)
-								<img src="{{$post->photo->file}}" height="60" width="60" class="img img-responsive img-rounded" alt="Thumbnail for {{$post->title}}" style="margin:auto;" />
+								<img src="{{$post->photo->file}}" height="60" width="60" class="img img-responsive img-rounded" alt="Thumbnail" style="margin:auto;" />
 							@else
-								No Preview Image  for <em>"{{$post->title}}"</em>
+								No Preview Image</em>
 							@endif
 							
 						</td>
